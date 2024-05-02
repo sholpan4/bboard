@@ -22,22 +22,31 @@
         <li class="nav-item">
             <a href="#" class="nav-link">Регистрация</a>
         </li>
+        {% if user.is_authenticated %}
         <li class="nav-item dropdown">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                class="nav-link dropdown-toggle">Профиль</a>
             <div class="dropdown-menu">
-                <a href="#" class="dropdown-item">Мои объявления</a>
-                <a href="#" class="dropdown-item">Изменить личные данные</a>
-                <a href="#" class="dropdown-item">Изменить пароль</a>
+                <a href="{% url 'main:profile' %}" class="dropdown-item">Мои объявления</a>
+                <a href="{% url 'main:profile_change' %}" class="dropdown-item">Изменить личные данные</a>
+                <a href="{% url 'main:password_change' %}" class="dropdown-item">Изменить пароль</a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">Выйти</a>
+
+<!--                {# <a href="{% url 'main:logout' %}" class="dropdown-item">Выйти</a> #}-->
+                <form method="post" action="{% url 'main:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item">Выйти</button>
+                </form>
+
                 <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">Удалить</a>
             </div>
         </li>
+        {% else %}
         <li class="nav-item">
-            <a href="#" class="nav-link">Вход</a>
+            <a href="{% url 'main:login' %}" class="nav-link">Вход</a>
         </li>
+        {% endif %}
     </ul>
 </div>
 
