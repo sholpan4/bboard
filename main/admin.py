@@ -64,6 +64,17 @@ class SubRubricAdmin(admin.ModelAdmin):
     form = SubRubricForm
 
 
+class AdditionalImageInline(admin.TabularInline):
+    model = AdditionalImage
+
+
+class BbAdmin(admin.ModelAdmin):
+    list_display = ('rubric', 'title', 'content', 'author', 'created_at')
+    fields = (('rubric', 'author'), 'title', 'content', 'price', 'contact', 'image', 'is_active')
+    inlines = (AdditionalImageInline, )
+
+
 admin.site.register(AdvUser, AdvUserAdmin)
 admin.site.register(SuperRubric, SuperRubricAdmin)
 admin.site.register(SubRubric, SubRubricAdmin)
+admin.site.register(Bb, BbAdmin)
