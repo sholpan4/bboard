@@ -28,9 +28,9 @@ def index(request):
 
 def other_page(request, page):
     try:
-        template = get_template('main/'+ page + '.html')
+        template = get_template('main/' + page + '.html')
     except TemplateDoesNotExist:
-        return Http404
+        raise Http404
 
     return HttpResponse(template.render(request=request))
 
@@ -143,7 +143,7 @@ def by_rubric(request, pk):
     return render(request, 'main/by_rubric.html', context)
 
 
-def detail(request, rubric_pk, pk):
+def detail(request, pk):
     bb = Bb.objects.get(pk=pk)
     ais = bb.additionalimage_set.all()
     comments = Comment.objects.filter(bb=pk, is_active=True)
@@ -171,8 +171,10 @@ def detail(request, rubric_pk, pk):
 
 
 def profile_bb_detail(request, pk):
-    context = {}
-    return render(request, 'main/profile_bb_detail.html', context)
+    bb = get_object_or_404(Bb, pk=pk)
+    ais = bb.additionalimage_set.all()
+    context = {'bb': bb, 'ais': ais}
+    return render(request, 'main/detail.html', context)
 
 
 @login_required
